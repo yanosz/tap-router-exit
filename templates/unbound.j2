@@ -1,0 +1,5 @@
+server:
+  interface: {{ item.value.ipv4 }}
+  interface: {{ item.value.ipv6 }}
+  access-control: ::/0 allow
+  access-control: 0.0.0.0/0 allow

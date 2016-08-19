@@ -1,0 +1,7 @@
+tap_vpn_interfaces:
+  fastd-exit:
+    ipv6: fd55:2afa:71ff::1
+    ipv4: 172.26.0.1
+    ipv4_netmask: 255.255.224.0
+    dhcp_start:  172.26.0.2
+    dhcp_end: 172.26.31.254

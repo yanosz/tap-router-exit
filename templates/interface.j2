@@ -1,0 +1,11 @@
+auto {{ item.key }}
+iface {{ item.key }} inet static
+  address {{ item.value.ipv4 }}
+  netmask {{ item.value.ipv4_netmask }}
+  pre-up /usr/sbin/openvpn --mktun --dev-type tap --dev {{ item.key }}
+  post-down /usr/bin/openvpn --rmtun --dev-type tap --dev {{ item.key }}
+
+iface {{ item.key }} inet6 static
+  address {{ item.value.ipv6 }}
+  netmask 64
+
