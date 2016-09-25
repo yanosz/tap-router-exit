@@ -27,13 +27,14 @@
     group=root
     mode='0644'
 
-- name: install dnsmasq, unbound, radvd, openvpn (needed for persistant tap devices)
+- name: install dnsmasq, unbound, radvd, dibbler, openvpn (needed for persistant tap devices)
   apt: name={{ item }} state=present update_cache=yes
   with_items:
   - unbound
   - dnsmasq
   - radvd
   - openvpn 
+  - dibbler-server
 
 - name: Create unbound interface configuration
   notify: restart unbound
@@ -50,10 +51,28 @@
   with_dict: " {{ tap_vpn_interfaces }}"
   template: >
     src=dnsmasq.j2
-    dest="/etc/dnsmasq.d/{{ item.key }}"
+    dest="/etc/dnsmasq.d/{{ item.key }}.conf"
     owner=root
     group=root
     mode='0644' 
+
+- name: Create Dibbler Configuration
+  notify: restart dibbler
+  template: >
+    src=server.conf.j2
+    dest="/etc/dibbler/server.conf"
+    owner=root
+    group=root
+    mode='0644'
+
+- name: Create Prefix-Delegation Script for dibbler
+  notify: restart dibbler
+  template: >
+    src=delegate.sh
+    dest="/etc/dibbler/delegate.sh"
+    owner=root
+    group=root
+    mode='0755'
 
 - name: Bind dnsmasq to specified interfaces only
   notify: restart dnsmasq

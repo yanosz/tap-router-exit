@@ -1,0 +1,39 @@
+#
+# Example server configuration file
+#
+# This config. file is considered all-purpose as it instructs server
+# to provide almost every configuratio
+# 
+
+# Logging level range: 1(Emergency)-8(Debug)
+log-level 8
+script "/etc/dibbler/delegate.sh"
+
+# Don't log full date
+log-mode short
+
+# Uncomment this line to call script every time a response is sent
+#script "/var/lib/dibbler/server-notify.sh"
+
+# set preference of this server to 0 (higher = more prefered)
+preference 0
+
+#iface "fastd-exit" {
+
+#assign /62 prefixes from this pool
+# pd-class {
+#     pd-pool 2001:67C:20A0:B100::/56
+#     pd-length 62
+# }
+#}
+
+{% for iface, props in tap_vpn_interfaces.iteritems() %}
+
+iface {{ iface }} {
+  pd-class {
+    pd-pool {{ props.dhcpv6_prefix }}
+    pd-length {{ props.dhcpv6_prefix_slice }}
+  }
+}
+
+{% endfor %}
