@@ -3,6 +3,7 @@ iface {{ item.key }} inet static
   address {{ item.value.ipv4 }}
   netmask {{ item.value.ipv4_netmask }}
   pre-up /usr/sbin/openvpn --mktun --dev-type tap --dev {{ item.key }}
+  pre-up /sbin/ifconfig $IFACE mtu 1375 
   post-down /usr/bin/openvpn --rmtun --dev-type tap --dev {{ item.key }}
 
 iface {{ item.key }} inet6 static
