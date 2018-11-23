@@ -1,5 +1,6 @@
 #!/bin/bash
 
+# Ansible generated file - Role: tap-router-exit.
 
 # this is example notify script that can be invoked on a server side
 # This script will be called by dibbler-server with a single parameter
